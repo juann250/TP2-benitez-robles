@@ -57,10 +57,12 @@ system("COLOR F0");
 int op=0, n=0;
 auxiliar v[100];
 		
-
+encabezado();
 
 do{
-	
+
+					system ("CLS");
+					encabezado();	
 	op = menuPrincipal();
 	
 		switch(op){
@@ -107,14 +109,14 @@ int menuPrincipal(){
 	
 	int op=0;
 
-				gotoxy(40, 8);printf(" [1].- Registrar Profesional ");
-				gotoxy(40,10);printf(" [2].- Registrar Usuario Recepcionista ");	
-				gotoxy(40,12);printf(" [3].- Atenciones por Profesional ");
-				gotoxy(40,14);printf(" [4].- Ranking de Profesionales por Atenciones ");
-				gotoxy(40,20);printf(" [5].- Cerrar aplicacion ");
+				gotoxy(54, 8);printf(" [1].- Registrar Profesional ");
+				gotoxy(54,10);printf(" [2].- Registrar Usuario Recepcionista ");	
+				gotoxy(54,12);printf(" [3].- Atenciones por Profesional ");
+				gotoxy(54,14);printf(" [4].- Ranking de Profesionales por Atenciones ");
+				gotoxy(54,20);printf(" [5].- Cerrar aplicacion ");
 				
-					gotoxy(40,24);printf("-----------------");
-					gotoxy(40,25);printf("Ingrese la opcion deseada: ");
+					gotoxy(54,24);printf("-----------------");
+					gotoxy(54,25);printf("Ingrese la opcion deseada: ");
 					scanf("%d", &op);
 		
 	return op;
@@ -158,7 +160,7 @@ void RegistrarProf(){
 		gets(registro.datos.apnom);
 		
 	bool bandera=false;
-	do{		
+	
 		gotoxy(0, 10);printf("%c",205);	
 	 	gotoxy(1, 10);printf("%c",187);
 	 	gotoxy(1, 11);printf("%c",186);
@@ -168,10 +170,24 @@ void RegistrarProf(){
 	 	}
 	 	gotoxy(15, 10);printf("%c Ingrese el [ID] del profesional: ", 175);
 	 	scanf("%d", &registro.id);
-		for(int i=0; i<c; i++){
-			if(registro.id==id[i]) bandera=true;
+	 	
+	do{		
+	bandera=false;
+
+	 	for(int i=0; i<c; i++){
+			if(registro.id==id[i]) {
+				cout<<"\e[A";
+				cout<<"\e[A";
+				bandera=true;
+			}
 		}
-		gotoxy(15, 12);if (bandera)printf("-El ID ingresado ya esta registrado-");
+		if (bandera){
+			gotoxy(15, 12);printf("-El ID ingresado ya esta registrado-");
+			 	gotoxy(15, 10);printf("%c Ingrese el [ID] del profesional: ", 175);
+	 	scanf("%d", &registro.id);
+		}
+
+
 	}while(bandera);
 
 	bandera=false;
@@ -203,60 +219,108 @@ void RegistrarProf(){
 
 		bool min=false, may=false, dig=false;
 		bandera=false;
-	do{
 
-		int mayuscula=0, digito=0;
+
+
+	do{
+		min=false; may=false; dig=false;
 		do{
 			system("cls");
-			printf("\n\nIngrese nombre de usuario: ");
-		printf("\n\nDebe estar compuesto por letras; la primera minuscula y al menos dos mayusculas, como maximo 3 números y/o símbolos del conjunto {+,-,/,*,?,¿,!,¡}");	
-		scanf("%s", registro.datos.usuario);
+		gotoxy(56, 5);printf("D A T O S - I N G R E S A D O S");
+		gotoxy(54, 6);printf("----------------------------------");
+			encabezado();
+		gotoxy(25, 7);printf("%cNombre: %s - %cID: %d - %cDNI: %d - %cTelefono: %d", 175, registro.datos.apnom, 175, registro.id, 175, registro.dni, 175, registro.telefono);
+			gotoxy(20, 10);printf("%cINGRESE: ", 16);
+			gotoxy(35, 12);printf("%cNombre de Usuario ", 175);
+			for(int i=35; i<=92; i++){
+	 			gotoxy(i,13);printf("%c",196);	 	
+	 		}
+			gotoxy(35, 14);printf("Debe estar compuesto por letras; laprimera minuscula");
+			gotoxy(35, 15);printf("y al menos dos mayusculas, como maximo 3 números y/o ");
+			gotoxy(35, 16);printf("símbolos del conjunto {+,-,/,*,?,¿,!,¡}");
+			for(int i=35; i<=92; i++){
+	 			gotoxy(i,17);printf("%c",196);	 	
+	 		}		
+			gotoxy(35, 18);printf("%c",175);
+			gotoxy(36, 18);scanf("%s", registro.datos.usuario);
 			for(int i=0; i<c; i++){
 				if(strcmp(registro.datos.usuario, usuarios[i])==0) bandera=true;
 			}
-			if(bandera)printf("-Usuario ya ingresado. Intente nuevamente-");
+			if(bandera){
+			gotoxy(36, 19);printf("-Usuario ya ingresado. Intente nuevamente-");	
+			}
 		}while(bandera);
+			
+		int mayuscula=0, digito=0;
+		
 			if(strlen(registro.datos.usuario)>= 6 && strlen(registro.datos.usuario) <= 10){
 				for(int i=0; i < strlen(registro.datos.usuario); i++){
 					if (registro.datos.usuario[i] >= 65 && registro.datos.usuario[i] <= 90) {
 						mayuscula++;	
 					}
-					if (registro.datos.usuario[i] == 43 || registro.datos.usuario[i] == 45 || registro.datos.usuario[i] == 47 || registro.datos.usuario[i] == 42 || registro.datos.usuario[i] == 63 || registro.datos.usuario[i] == 168 || registro.datos.usuario[i] == 173 || registro.datos.usuario[i] == 33 || registro.datos.usuario[i] >= 48 || registro.datos.usuario[i] <= 57){
+					if (registro.datos.usuario[i] == 43 || registro.datos.usuario[i] == 45 || registro.datos.usuario[i] == 47 || registro.datos.usuario[i] == 42 || registro.datos.usuario[i] == 63 || registro.datos.usuario[i] == 168 || registro.datos.usuario[i] == 173 || registro.datos.usuario[i] == 33 || registro.datos.usuario[i] >= 48 && registro.datos.usuario[i] <= 57){
 						digito++;
 					}			
 				}	
 			}
-			else printf("-El usuario debe tener un minimo de 6 y un maximo de 10 digitos-");
+			else {
+				gotoxy(35, 19);printf("-El usuario debe tener un minimo de 6 y un maximo de 10 digitos-");
+			}
 			
-			if(registro.datos.usuario[0] >=65 && registro.datos.usuario[0] <=90){
+			if(registro.datos.usuario[0] >=97 && registro.datos.usuario[0] <=122){
 					min=true;
 			}
-			else printf("-La primer letra debe ser minuscula-");
-				
+			else  {
+			gotoxy(35, 20);printf("-La primer letra debe ser minuscula-");
+			}
+			
 			if(mayuscula >= 2){	
 					may=true;
 			}
-			else printf("-El usuario debe contener al menos dos letras mayusculas-");
 			
-			if(digito>0 and digito<4){
+			else {
+			gotoxy(35, 21);printf("-El usuario debe contener al menos dos letras mayusculas-");
+			}
+			if(digito>0 && digito<4){
 					dig=true;
 			}
-			else printf("-El usuarion debe contener un numero de numeros o digitos valido-");
+			else {
+			gotoxy(35, 22);printf("-El usuario debe contener un/unos numeros o digitos valido-");
+			}
+			gotoxy(35, 23);system("pause");
 			
-	}while(min==false && may==false && dig==false);
+	}while(min==false || may==false || dig==false);
 	
 	dig=false;
 	bool sucesionl=false, sucesiond=false, minuscula=false, mayuscula=false, numero=false;
 	do{
+		int c=0;
+		system("cls");
+		encabezado();
+	
+		if(c>0){
+		gotoxy(56, 20);printf("Contrase%a No Valida! Intente nuevamente", 164);	
+		}
 		char caux[32];
 		
-			printf("\n\nIngrese la contraseña: ");
-			printf("\n\nDebe tener entre 6 y 32 caracteres y debe contener: ");	
-			printf("\nAl menos una letra mayúscula, una minúscula no consecutivas alfabeticamente y minimo un número; no puede ser una sucesion de 3 numeros consecutivos.");
-			printf("\nNo podrá contener ningún carácter de puntuación, ni acentos, ni espacios.Sólo caracteres alfanuméricos");
-			printf("\nNo podrá contener ningún carácter de puntuación, ni acentos, ni espacios.Sólo caracteres alfanuméricos");
-			scanf("%s", &registro.datos.contrasenia);
-			
+			gotoxy(56, 5);printf("D A T O S - I N G R E S A D O S");
+			gotoxy(54, 6);printf("----------------------------------");
+			gotoxy(25, 7);printf("%cNombre: %s - %cID: %d - %cDNI: %d - %cTelefono: %d - %cUsuario: %s", 175, registro.datos.apnom, 175, registro.id, 175, registro.dni, 175, registro.telefono, 175, registro.datos.usuario);
+			gotoxy(20, 10);printf("%cINGRESE: ", 16);
+			gotoxy(35, 12);printf("%cContrase%ca", 175, 164);
+			for(int i=35; i<=92; i++){
+	 			gotoxy(i,13);printf("%c",196);	 	
+	 		}
+			gotoxy(35, 14);printf("Debe tener entre 6 y 32 caracteres y debe contener: ");	
+			gotoxy(35, 15);printf("Al menos una letra mayuscula, una minuscula no consecutivas");
+			gotoxy(35, 16);printf("alfabeticamente y minimo un numero; no puede ser una sucesion ");
+			gotoxy(35, 17);printf("de 3 numeros consecutivos. No podra contener ningún carácter de");
+			gotoxy(35, 17);printf("puntuacion, ni acentos, ni espacios.Sólo caracteres alfanumericos");
+			for(int i=35; i<=92; i++){
+	 			gotoxy(i,18);printf("%c",196);	 	
+	 		}
+			gotoxy(35, 19);printf("%c",175);
+			gotoxy(36, 19);scanf("%s", registro.datos.contrasenia);			
 				if(strlen(registro.datos.contrasenia)>= 6 && strlen(registro.datos.contrasenia) <= 32){
 					strcpy(caux,registro.datos.contrasenia);
 					strupr(caux);
@@ -289,29 +353,32 @@ void RegistrarProf(){
 								
 				}
 
-				else printf("-la contraseña debe contener entre 6 y 32 caracteres-");
+/*				else {
+					gotoxy(36, 21);printf("-la contraseña debe contener entre 6 y 32 caracteres-");
+				}
 				
 				if(!mayuscula){
-					printf("\n-La contraseña debe tener al menos una letra mayuscula-");
+					gotoxy(36, 22);printf("\n-La contraseña debe tener al menos una letra mayuscula-");
 				} 
 					
 				if(!minuscula){
-					printf("\n-La contraseña debe tener al menos una letra minuscula-");
+					gotoxy(36, 23);printf("\n-La contraseña debe tener al menos una letra minuscula-");
 				}
 				
 				if(!numero){
-					printf("\n-La contraseña debe tener al menos un numero-");
+					gotoxy(36, 24);printf("\n-La contraseña debe tener al menos un numero-");
 				}
 				if(dig){
-					printf("\n-La contraseña no debe tener digitos: digitos, espacios, signos de puntuacion-");
+					gotoxy(36, 25);printf("\n-La contraseña no debe tener digitos: digitos, espacios, signos de puntuacion-");
 				}
 				if(sucesionl){
-					printf("\n-La contraseña no puede tener letras sucesivas (AB,BC,CD,etc)-");
+					gotoxy(36, 26);printf("\n-La contraseña no puede tener letras sucesivas (AB,BC,CD,etc)-");
 				}	
 				if(sucesiond){
-					printf("\n-La contraseña no puede tener mas de tres numeros consecutivos entre si (1234,2345,3456,etc)-");
+					gotoxy(36, 27);printf("\n-La contraseña no puede tener mas de tres numeros consecutivos entre si (1234,2345,3456,etc)-");
 				}
-
+*/
+				c++;
 	}while(minuscula==false || mayuscula==false || numero==false || dig==true || sucesionl==true || sucesiond==true);
 	
 	fwrite(&registro, sizeof(registro), 1, arch);
@@ -366,11 +433,11 @@ void RegistrarSec(){
 			
 	}while(min==false && may==false && dig==false);
 	
-	
+		int k=0;
 		dig=false;
 		bool sucesionl=false, sucesiond=false, mayuscula=false, minuscula=false, numero=false;	
 	do{
-
+		
 		char caux[32];
 		
 			printf("\n\nIngrese la contraseña: ");
@@ -412,7 +479,7 @@ void RegistrarSec(){
 								
 				}
 
-				else printf("-la contraseña debe contener entre 6 y 32 caracteres-");
+	/*			else printf("-la contraseña debe contener entre 6 y 32 caracteres-");
 				
 				if(!mayuscula){
 					printf("\n-La contraseña debe tener al menos una letra mayuscula-");
@@ -434,7 +501,9 @@ void RegistrarSec(){
 				if(sucesiond){
 					printf("\n-La contraseña no puede tener mas de tres numeros consecutivos entre si (1234,2345,3456,etc)-");
 				}
-
+*/
+			k++;
+			
 	}while(minuscula==false || mayuscula==false || numero==false || dig==true || sucesionl==true || sucesiond==true);
 	
 	fwrite(&registro, sizeof(registro), 1, arch);
@@ -475,7 +544,7 @@ void atencionlista(auxiliar v[], int n){
 	
 	char nombre [60];	
 	auxiliar z;
-		printf("\n\n----LISTA ATENCION POR PROFESIONAL----");
+	gotoxy(20, 6);printf("¡----LISTA ATENCION POR PROFESIONAL----");
 
 
 	for (int i=1; i<n; i++){	
@@ -490,15 +559,15 @@ void atencionlista(auxiliar v[], int n){
 	}
 	for(int i=0; i<n; i++){
 		
-		printf("Profesional: %s", v[i].nombre);
-		printf("atenciones: %d", v[i].cantidad);
+		gotoxy(35, 8+i);printf("Profesional: %s", v[i].nombre);
+		gotoxy(35, 9+1);printf("atenciones: %d", v[i].cantidad);
 	}
 }
 void topatencion(auxiliar vector[], int n){
 
 	auxiliar z;
 
-		printf("\n\n----LISTA TOP ATENCIONES----");
+		gotoxy(35, 19);printf("\n\n----LISTA TOP ATENCIONES----");
 
 	for (int i=1; i<n; i++){	
    	   for (int j=0; j<n-1; j++){
